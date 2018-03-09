@@ -1,0 +1,30 @@
+{
+  "presets": [
+    "babel-preset-expo",
+    "react-native-dotenv"
+  ],
+  "env": {
+    "development": {
+      "plugins": ["transform-react-jsx-source"]
+    }
+  },
+  "plugins": [
+    ["module-resolver", {
+      "alias": {
+        "#animations":  "./assets/animations",
+        "#fonts":       "./assets/fonts",
+        "#images":      "./assets/images",
+        "#sounds":      "./assets/sounds",
+
+        "#actions":     "./app/actions",
+        "#components":  "./app/components",
+        "#containers":  "./app/containers",
+        "#modules":     "./app/modules",
+        "#selectors":   "./app/selectors",
+        "#services":    "./app/services",
+        "#store":       "./app/store",
+        "#utils":       "./app/utils"
+      }
+    }]
+  ]
+}

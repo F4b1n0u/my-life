@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "my-life",
+    "description": "for every Mtg lovers !, with this app, you will be able to focus on your strategy and not on how many life points you have left !!!",
+    "slug": "my-life",
+    "privacy": "public",
+    "sdkVersion": "25.0.0",
+    "platforms": ["ios"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#512902"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "fbdev",
+            "project": "my-life",
+            "authToken": "YOUR_OWN_KEY"
+          }
+        }
+      ]
+    }
+  }
+}
