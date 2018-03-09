@@ -1,6 +1,6 @@
 # My Games
 <p align="center">
-  <img src ="https://github.com/F4b1n0u/my-games/blob/develop/demo.gif" />
+  <img src ="https://raw.githubusercontent.com/F4b1n0u/my-life/master/demo.gif" />
 </p>
 My life is a react native application (iOS only for now), who assist you and your opponent during your session of Magic the gathering the card game
 
