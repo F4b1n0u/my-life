@@ -31,6 +31,6 @@ The app is still waiting to be released on the Apple store, but if you can't wai
 https://expo.io/@f4b1n0u/my-life
  
 # How to run your own version
-In case you want to run it on your own dev environement you will have to:
+In case you want to run it on your own dev environment you will have to:
 - populate your own .env file
 - add your sentry auth api key in expo.hooks.postPublish.config.authToken of the app.json
