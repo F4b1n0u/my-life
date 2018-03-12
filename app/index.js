@@ -18,9 +18,6 @@ Sentry
   .config(SENTRY_URI)
   .install()
 
-Sentry.enableInExpoDevelopment = true
-Sentry.captureException(new Error('dot env or not dot env ???'))
-
 const initialState = {}
 const {
   store,
