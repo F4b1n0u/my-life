@@ -16,7 +16,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.fbdevltd.my-lives"
+      "bundleIdentifier": "com.fbdev.my-magic-lives"
     },
     "hooks": {
       "postPublish": [
