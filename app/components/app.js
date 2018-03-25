@@ -29,11 +29,11 @@ export default class AppComponent extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        isShowingVersion: false
-      })
-    }, VERSION_DISPLAY_DURATION)
+    // setTimeout(() => {
+    //   this.setState({
+    //     isShowingVersion: false
+    //   })
+    // }, VERSION_DISPLAY_DURATION)
   }
 
   render() {
