@@ -185,49 +185,8 @@ export default class BattlefieldComponent extends React.Component {
 
     return (
       <View
-        style={style}
+        style={[style, { flexDirection: 'row', flex: 1 }]}
       >
-        <LifeIndicator>
-          <LifeToken
-            color={color}
-          >
-            {colorToTokenLetter(color)}
-          </LifeToken>
-          <Life
-            life={life}
-          >
-            {life}
-          </Life>
-        </LifeIndicator>
-        {haslifeDelta ? (
-          <LifeDeltaIndicator
-            key="life-delta"
-            style={{
-              transform: [{
-                scale: lifeDeltaAnimationProgress.interpolate({
-                  inputRange: [0, .2, 1],
-                  outputRange: [1, 5 / 4, .6],
-                })
-              }],
-              opacity: lifeDeltaAnimationProgress.interpolate({
-                inputRange: [0, .1, .4, 1],
-                outputRange: [0, 1, 1, 0],
-              })
-            }}
-          >
-            <LifeDeltaToken
-              lifeDelta={lifeDelta}
-            >
-              {lifeDeltaToToken(lifeDelta)}
-            </LifeDeltaToken>
-            <LifeDelta
-              lifeDelta={lifeDelta}
-            >
-              {lifeDelta < 0 ? lifeDelta : `+${lifeDelta}`}
-            </LifeDelta>
-          </LifeDeltaIndicator>
-        ) : null}
-      
         <AnimationWrapper
           key="heal"
           style={{
@@ -247,6 +206,78 @@ export default class BattlefieldComponent extends React.Component {
             progress={healAnimationProgress}
           />
         </AnimationWrapper>
+
+        <View
+          style={[style, { flexDirection: 'column', flex: 1 }]}
+        >
+          <DiceWrapper
+            key="dice-cup"
+            style={{
+              transform: [{
+                scale: diceAnimationProgress.interpolate({
+                  inputRange: [0, .5, 1],
+                  outputRange: [1, 3 / 2, 1],
+                })
+              }, {
+                rotate: diceAnimationProgress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [`0deg`, `1080deg`],
+                })
+              }]
+            }}
+            onPress={() => {
+              this.diceAnimation.play()
+              const changes = 3
+              for (let delay = 0; delay < changes; delay++) {
+                setTimeout(this.throwDice, delay * diceAnimationDuration / (changes + 1))
+              }
+            }}
+          >
+            <Dice>
+              {diceOutcome}
+            </Dice>
+          </DiceWrapper>
+          <LifeIndicator>
+            <LifeToken
+              color={color}
+            >
+              {colorToTokenLetter(color)}
+            </LifeToken>
+            <Life
+              life={life}
+            >
+              {life}
+            </Life>
+            {haslifeDelta ? (
+              <LifeDeltaIndicator
+                key="life-delta"
+                style={{
+                  transform: [{
+                    scale: lifeDeltaAnimationProgress.interpolate({
+                      inputRange: [0, .2, 1],
+                      outputRange: [1, 5 / 4, .6],
+                    })
+                  }],
+                  opacity: lifeDeltaAnimationProgress.interpolate({
+                    inputRange: [0, .1, .4, 1],
+                    outputRange: [0, 1, 1, 0],
+                  })
+                }}
+              >
+                <LifeDeltaToken
+                  lifeDelta={lifeDelta}
+                >
+                  {lifeDeltaToToken(lifeDelta)}
+                </LifeDeltaToken>
+                <LifeDelta
+                  lifeDelta={lifeDelta}
+                >
+                  {lifeDelta < 0 ? lifeDelta : `+${lifeDelta}`}
+                </LifeDelta>
+              </LifeDeltaIndicator>
+            ) : null}
+          </LifeIndicator>
+        </View>
       
         <AnimationWrapper
           key="attack"
@@ -267,33 +298,6 @@ export default class BattlefieldComponent extends React.Component {
             progress={attackAnimationProgress}
           />
         </AnimationWrapper>
-        <DiceCup
-          key="dice-cup"
-          style={{
-            transform: [{
-              scale: diceAnimationProgress.interpolate({
-                inputRange: [0, .5, 1],
-                outputRange: [1, 3 / 2, 1],
-              })
-            }, {
-              rotate: diceAnimationProgress.interpolate({
-                inputRange: [0, 1],
-                outputRange: [`90deg`, `1170deg`],
-              })
-            }]
-          }}
-          onPress={() => {
-            this.diceAnimation.play()
-            const changes = 3
-            for (let delay = 0; delay < changes; delay++) {
-              setTimeout(this.throwDice, delay * diceAnimationDuration / (changes + 1))
-            }
-          }}
-        >
-          <Dice>
-            {diceOutcome}
-          </Dice>
-        </DiceCup>
       </View>
     )
   }
@@ -311,8 +315,9 @@ BattlefieldComponent.propTypes = {
 const AnimationWrapper = styled.TouchableOpacity.attrs({
   activeOpacity: 1,
 })`
-  width: 40%;
-  margin-bottom: 20;
+  flex: 1;
+  border-width: 1;
+  border-color: black;
 `
 
 
@@ -336,16 +341,16 @@ const Attack = styled(Lottie)
 // ideally should be near the half of the player view
 const lifeIndicatorSize = 140
 const LifeIndicator = styled.View`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  flex-direction: row;
+  flex: 2;
+  border-color: red;
+  border-width: 1;
+  align-items: center;
   justify-content: center;
+  flex-direction: row;
 `
 
 const LifeToken = styled(ShadowText)`
-  font-size: ${verticalScale(lifeIndicatorSize)};
+  font-size: ${lifeIndicatorSize};
   color: ${({ color }) => colorToExa(color)};
   font-family: 'magicIcons';
 `
@@ -357,8 +362,8 @@ const Life = styled(ShadowText).attrs({
   numberOfLines: 1,
 })`
   position: absolute;
-  
-  margin-top: ${verticalScale(lifeSize) / 4};
+  right: 0;
+  left: 0;
   font-size: ${verticalScale(lifeSize)};
   color: hsl(0, 100%, ${
     ({ life }) => {
@@ -375,11 +380,10 @@ const Life = styled(ShadowText).attrs({
 const lifeDeltaIndicatorSize = 140
 const LifeDeltaIndicator = styled(Animated.View)`
   position: absolute;
-  bottom: 0;
-  left: 0;
+  top: 0;
   right: 0;
-  flex-direction: row;
-  justify-content: center;
+  left: 0;
+  bottom: 0;
 `
 
 const LifeDeltaToken = styled(ShadowText)`
@@ -392,29 +396,19 @@ const lifeDeltaSize = lifeDeltaIndicatorSize / 10 * 7
 const LifeDelta = styled(ShadowText).attrs({
   numberOfLines: 1,
 })`
-  position: absolute;
-  
-  margin-top: ${verticalScale(lifeDeltaSize) / 4};
   font-size: ${verticalScale(lifeDeltaSize)};
   color: #ffffff;
   
   font-family: 'Mplantin';
 `
 
-const DiceCup = styled.TouchableOpacity.attrs({
+const DiceWrapper = styled.TouchableOpacity.attrs({
   activeOpacity: 1,
 })`
-  position: absolute;
-
-  top: 7%;
-
-  left: 32.5%;
-
-  height: 35%;
-  width: 35%;
-
+  flex: 1;
   justify-content: center;
-  align-items: center;
+  border-width: 1;
+  border-color: black;
 `
 
 const Dice = styled.Text.attrs({

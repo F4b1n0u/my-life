@@ -38,30 +38,32 @@ export default class PlayerListComponent extends React.Component {
             key={`panel.${player.id}`}
             location={index}
           >
-            <PlayerColor
-              // the key is to ensure the smooth transition
-              key={player.color.value}
-              color={player.color.value}
-            />
-            <ColorBlur color={player.color.value} />
-            <Player
-              // TODO the mapping with player ID should be here !!
-              {...player}
-              opponents={opponentMap[player.id]}
-              changePlayerStatus={changePlayerStatus}
-              changePlayerColor={changePlayerColor}
-              changePlayerLife={changePlayerLife}
-              togglePlayerIsPoisonActive={togglePlayerIsPoisonActive}
-              attack={attack}
-              heal={heal}
-              restartGame={restartGame}
-            />
+            <ColorBlur color={player.color.value}>
+              <PlayerColor
+                // the key is to ensure the smooth transition
+                key={player.color.value}
+                color={player.color.value}
+              />
+              <Player
+                // TODO the mapping with player ID should be here !!
+                {...player}
+                opponents={opponentMap[player.id]}
+                changePlayerStatus={changePlayerStatus}
+                changePlayerColor={changePlayerColor}
+                changePlayerLife={changePlayerLife}
+                togglePlayerIsPoisonActive={togglePlayerIsPoisonActive}
+                attack={attack}
+                heal={heal}
+                restartGame={restartGame}
+              />
+            </ColorBlur>
           </Panel>
          ))}
       </View>
     )
   }
 }
+  // ${({ location }) => location === 0 && 'transform: rotate(180deg);'};
 
 PlayerListComponent.propTypes = {
   playerList: arrayOf(object).isRequired,
@@ -76,22 +78,12 @@ PlayerListComponent.propTypes = {
 const Panel = styled.View`
   flex: 1;
 
-  margin-top: 10;
-  margin-bottom: 10;
-  margin-right: 10;
-  margin-left: 10;
-
-  border-top-right-radius: 20;
-  border-top-left-radius: 20;
-  border-bottom-right-radius: 20;
-  border-bottom-left-radius: 20;
-
-  overflow: hidden;
-  
+  margin-vertical: 10;
+  margin-horizontal: 10;
+  border-radius: 20;
   border-width: 1;
   border-color: #ffffff;
   
-  ${({ location }) => location === 0 && 'transform: rotate(180deg);'};
 `
 
 const PlayerColor = styled.Image
@@ -99,12 +91,11 @@ const PlayerColor = styled.Image
     source: ({ color }) => colorToImage(color),
   })`
     position: absolute;
-    top: -10;
-    bottom: -10;
-    left: -10;
-    right: -10;
-    height: 110%;
-    width: 110%;
+  border-radius: 20;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   `
 
 const ColorBlur = styled(BlurView)
@@ -113,6 +104,7 @@ const ColorBlur = styled(BlurView)
     tint: ({ color }) => color ? undefined : 'dark',
   })`
   position: absolute;
+  border-radius: 20;
   top: 0;
   bottom: 0;
   left: 0;
@@ -124,4 +116,5 @@ const Player = styled(PlayerComponent)`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  border-radius: 20;
 `
